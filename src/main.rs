@@ -112,7 +112,7 @@ struct PluginManifest {
 }
 
 fn read_manifest(repo_path: String, name: &str) -> Option<PluginManifest> {
-    let manifest: PluginManifest = serde_json::from_str(&read_to_string(repo_path + "/stable/Hooky/Hooky.json").unwrap()).unwrap();
+    let manifest: PluginManifest = serde_json::from_str(&read_to_string(repo_path + &*format!("/stable/{name}/{name}.json")).unwrap()).unwrap();
 
     Some(manifest)
 }
