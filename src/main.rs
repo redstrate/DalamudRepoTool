@@ -69,45 +69,59 @@ struct PluginManifest {
     dip17_channel: String,
 
     #[serde(default)]
+    #[serde(rename = "Changelog")]
     changelog: String,
 
     #[serde(default)]
+    #[serde(rename = "CategoryTags")]
     category_tags: Option<Vec<String>>,
 
     #[serde(default)]
+    #[serde(rename = "IsHide")]
     is_hide: bool,
 
     #[serde(default)]
+    #[serde(rename = "TestingAssemblyVersion")]
     testing_assembly_version: Option<String>,
 
     #[serde(default)]
+    #[serde(rename = "IsTestingExclusive")]
     is_testing_exclusive: bool,
 
     #[serde(default)]
+    #[serde(rename = "DownloadCount")]
     download_count: i32,
 
     #[serde(default)]
+    #[serde(rename = "LastUpdate")]
     last_update: i64,
 
     #[serde(default)]
+    #[serde(rename = "DownloadLinkInstall")]
     download_link_install: String,
 
     #[serde(default)]
+    #[serde(rename = "DownloadLinkUpdate")]
     download_link_update: String,
 
     #[serde(default)]
+    #[serde(rename = "DownloadLinkTesting")]
     download_link_testing: String,
 
     #[serde(default)]
+    #[serde(rename = "ImageUrls")]
     image_urls: Option<Vec<String>>,
 
     #[serde(default)]
+    #[serde(rename = "IconUrl")]
     icon_url: Option<String>,
 
     #[serde(default)]
+    #[serde(rename = "FeedbackMessage")]
     feedback_message: Option<String>,
 
     #[serde(default)]
+    #[serde(rename = "FeedbackWebhook")]
     feedback_webhook: Option<String>
 }
 
