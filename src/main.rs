@@ -12,6 +12,9 @@ use clap::{Parser, Subcommand};
 struct Args {
     #[clap(short, long, value_parser)]
     repo_path: String,
+
+    #[clap(short, long, value_parser)]
+    download_host: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -167,7 +170,7 @@ fn main() {
         //manifest.changelog = "".to_string();
         manifest.last_update = plugin.time_built.timestamp_millis() / 1000;
 
-        manifest.download_link_install = format!("https://dalamud.xiv.zone/stable/{}/latest.zip", plugin.name);
+        manifest.download_link_install = format!("{}/stable/{}/latest.zip", args.download_host, plugin.name);
         // TODO: this aren't supposed to be the same
         manifest.download_link_testing = manifest.download_link_install.clone();
         manifest.download_link_update = manifest.download_link_install.clone();
