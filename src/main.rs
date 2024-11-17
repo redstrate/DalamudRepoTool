@@ -2,9 +2,8 @@ use std::collections::HashMap;
 use std::fs::{read, read_to_string, write};
 use std::str::FromStr;
 use chrono::format::Fixed;
-use chrono::{FixedOffset, Utc};
+use chrono::{DateTime, FixedOffset, Utc};
 use serde::{Deserialize, Serialize};
-use toml::value::{Datetime, Offset};
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
@@ -142,14 +141,14 @@ struct StatePlugin {
 fn main() {
     let args = Args::parse();
 
-    let config: HashMap<String, toml::Value> = toml::from_str(&read_to_string(args.repo_path.clone() + "/State.toml").unwrap()).unwrap();
+    let config: HashMap<String, serde_json::Value> = serde_json::from_str(&read_to_string(args.repo_path.clone() + "/state.json").unwrap()).unwrap();
 
     let mut plugin_names = vec![];
 
-    for (channel, plugins) in config.get("channels").unwrap().as_table().unwrap() {
-        for (plugin_name, plugin_data) in plugins.get("plugins").unwrap().as_table().unwrap() {
-            let time_built_raw = *plugin_data.get("time_built").unwrap().as_datetime().unwrap();
-            let time_built = chrono::DateTime::parse_from_rfc3339(&format!("{}Z", &time_built_raw.to_string())).unwrap();
+    for (channel, plugins) in config.get("Channels").unwrap().as_object().unwrap() {
+        for (plugin_name, plugin_data) in plugins.get("Plugins").unwrap().as_object().unwrap() {
+            let time_built_raw = plugin_data.get("TimeBuilt").unwrap().as_str().unwrap();
+            let time_built = chrono::DateTime::parse_from_rfc3339(time_built_raw).unwrap();
 
             plugin_names.push(StatePlugin {
                 name: plugin_name.clone(),
