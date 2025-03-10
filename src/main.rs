@@ -1,10 +1,8 @@
 use std::collections::HashMap;
-use std::fs::{read, read_to_string, write};
-use std::str::FromStr;
-use chrono::format::Fixed;
-use chrono::{DateTime, FixedOffset, Utc};
+use std::fs::{read_to_string, write};
+use chrono::FixedOffset;
 use serde::{Deserialize, Serialize};
-use clap::{Parser, Subcommand};
+use clap::Parser;
 
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
@@ -145,7 +143,7 @@ fn main() {
 
     let mut plugin_names = vec![];
 
-    for (channel, plugins) in config.get("Channels").unwrap().as_object().unwrap() {
+    for (_, plugins) in config.get("Channels").unwrap().as_object().unwrap() {
         for (plugin_name, plugin_data) in plugins.get("Plugins").unwrap().as_object().unwrap() {
             let time_built_raw = plugin_data.get("TimeBuilt").unwrap().as_str().unwrap();
             let time_built = chrono::DateTime::parse_from_rfc3339(time_built_raw).unwrap();
@@ -181,5 +179,5 @@ fn main() {
         plugin_list.push(manifest);
     }
 
-    write(args.repo_path + "/repo.json", serde_json::to_string(&plugin_list).unwrap());
+    write(args.repo_path + "/repo.json", serde_json::to_string(&plugin_list).unwrap()).unwrap();
 }
